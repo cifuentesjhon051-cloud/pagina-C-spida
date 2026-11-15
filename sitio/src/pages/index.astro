@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Cabecera from '../components/Cabecera.astro';
+import Hero from '../components/Hero.astro';
+import Servicios from '../components/Servicios.astro';
+import Hosting from '../components/Hosting.astro';
+import Caminos from '../components/Caminos.astro';
+import Proceso from '../components/Proceso.astro';
+import Compromisos from '../components/Compromisos.astro';
+import Faq from '../components/Faq.astro';
+import Contacto from '../components/Contacto.astro';
+import Pie from '../components/Pie.astro';
+import Icono from '../components/Icono.astro';
+import { config, waHref } from '../config';
+---
+<Base>
+  <Cabecera />
+  <main id="contenido">
+    <Hero />
+    <Servicios />
+    <Hosting />
+    <Caminos />
+    <Proceso />
+    <Compromisos />
+    <Faq />
+    <Contacto />
+  </main>
+  <Pie />
+  {config.whatsapp && (
+    <a class="wa-flot" href={waHref('Hola, quiero más información.')} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+      <Icono nombre="chat" tamano={30} color="#fff" />
+    </a>
+  )}
+</Base>
+
+<style is:global>
+  .wa-flot { position: fixed; right: 22px; bottom: 22px; z-index: 40; width: 60px; height: 60px; border-radius: 50%; background: #1FA855; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px -6px rgba(0, 0, 0, .5); transition: transform .25s; }
+  .wa-flot:hover { transform: scale(1.08); }
+</style>
+
+<script>
+  import '../scripts/ui';
+  import '../scripts/animaciones';
+  import '../scripts/formulario';
+</script>

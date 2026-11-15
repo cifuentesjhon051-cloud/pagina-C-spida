@@ -1,0 +1,68 @@
+@font-face { font-family: 'Cinzel'; src: url('/fuentes/Cinzel-600.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Montserrat'; src: url('/fuentes/Montserrat-500.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+
+:root {
+  --azul-prof: #0F1B33;
+  --azul: #1B2B4F;
+  --noche: #0A1326;
+  --oro: #D4AF37;
+  --oro-claro: #F3DC8B;
+  --oro-viejo: #8A6A1F;
+  --marfil: #F8F5EC;
+  --tinta: #111318;
+  --oro-grad: linear-gradient(160deg, #F3DC8B, #D9B647 45%, #B38D2A);
+  --serif: 'Cinzel', 'Times New Roman', serif;
+  --sans: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
+  --pad: clamp(20px, 7.6vw, 110px);
+  --cabecera: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; font-family: var(--sans); font-weight: 500; color: var(--tinta); background: #fff;
+  line-height: 1.6; font-size: clamp(15px, 1.2vw, 17px); -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+h1, h2, h3, p, ul, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.16; }
+h2 { font-size: clamp(28px, 3.2vw, 46px); }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+section { position: relative; }
+section[id] { scroll-margin-top: var(--cabecera); }
+
+.oro { background: var(--oro-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sobre { font-size: 12px; letter-spacing: .3em; text-transform: uppercase; }
+.solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.contenedor { padding-inline: var(--pad); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 26px; border-radius: 999px;
+  font: inherit; font-size: 15px; letter-spacing: .04em; white-space: nowrap; cursor: pointer; border: 0;
+  transition: transform .25s, box-shadow .25s, background-color .25s, color .25s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn--oro { background: linear-gradient(160deg, #F3DC8B, #D4AF37 55%, #B38D2A); color: var(--azul-prof); box-shadow: 0 10px 24px -12px rgba(212, 175, 55, .7); }
+.btn--linea { border: 1.5px solid rgba(212, 175, 55, .85); color: var(--oro-claro); background: transparent; }
+.btn--linea:hover { background: rgba(212, 175, 55, .14); }
+.btn--wa { background: #1FA855; color: #fff; }
+
+:focus-visible { outline: 2px solid var(--oro-claro); outline-offset: 3px; border-radius: 4px; }
+.salto { position: fixed; left: 12px; top: -60px; z-index: 100; background: var(--oro-claro); color: var(--azul-prof); padding: 10px 16px; border-radius: 8px; }
+.salto:focus { top: 12px; }
+
+/* ---- Portada: piezas insertadas con set:html (no reciben estilos con alcance) ---- */
+.hero { --B: min(61.8svh, 118vw); }
+.hero__emblema { height: calc(var(--B) * .618); width: auto; flex: none; overflow: visible; filter: drop-shadow(0 18px 38px rgba(0, 0, 0, .5)); }
+.hero__emblema [id^='engranaje-'] { transform-box: fill-box; transform-origin: center; }
+
+/* ---- Torres de servidores ---- */
+.hosting__svg .led { animation: parpadeo 3.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes parpadeo { 0%, 100% { opacity: 1; } 50% { opacity: .22; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hosting__svg .led { animation: none; }
+  * { transition-duration: .01ms !important; }
+}

@@ -1,0 +1,49 @@
+---
+import Icono from './Icono.astro';
+import { tarjetas } from '../content';
+---
+<section class="servicios" id="servicios">
+  <div class="servicios__pin">
+    <header class="servicios__encabezado">
+      <div class="sobre" style="color: var(--oro-viejo)">Qué hacemos</div>
+      <h2>Así te ayudamos</h2>
+    </header>
+    <div class="servicios__lista">
+      {tarjetas.map((t) => (
+        <article class="tarjeta">
+          <div class="tarjeta__in">
+            <Icono nombre={t.icono} tamano={44} />
+            <h3 class="oro">{t.titulo}</h3>
+            <p class="tarjeta__cuerpo">{t.cuerpo}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .servicios { background: #fff; color: var(--tinta); padding: clamp(72px, 9vw, 128px) var(--pad) clamp(64px, 8vw, 110px); }
+  .servicios__pin { display: flex; flex-direction: column; justify-content: center; }
+  .servicios__encabezado { text-align: center; position: relative; z-index: 2; }
+  .servicios__encabezado h2 { color: var(--azul); margin-top: 12px; }
+  .servicios__lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 48px; }
+  .tarjeta { --r: 1; --lift: 0; position: relative; will-change: transform; }
+  .tarjeta__in {
+    height: 100%; padding: 30px 26px 28px; border-radius: 18px; background: var(--azul); color: var(--marfil);
+    box-shadow: 0 calc(24px + var(--lift) * 26px) calc(40px + var(--lift) * 30px) calc(-22px - var(--lift) * 4px) rgba(15, 27, 51, .55), 0 12px 26px -12px rgba(15, 27, 51, .3);
+    transition: translate .35s cubic-bezier(.22, .8, .3, 1), box-shadow .35s; animation: flotar 7s ease-in-out infinite;
+  }
+  .tarjeta:nth-child(2) .tarjeta__in { animation-delay: -1.7s; }
+  .tarjeta:nth-child(3) .tarjeta__in { animation-delay: -3.4s; }
+  .tarjeta:nth-child(4) .tarjeta__in { animation-delay: -5.1s; }
+  .tarjeta:hover .tarjeta__in { translate: 0 -8px; }
+  .tarjeta h3 { font-size: clamp(20px, 1.6vw, 22px); margin: 18px 0 12px; }
+  .tarjeta__cuerpo { font-size: 15px; line-height: 1.65; opacity: calc(.94 * var(--r)); transform: translateY(calc((1 - var(--r)) * 12px)); }
+  @keyframes flotar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  @media (prefers-reduced-motion: reduce) { .tarjeta__in { animation: none; } }
+  @media (max-width: 700px) { .servicios__lista { grid-template-columns: 1fr; gap: 22px; margin-top: 36px; } .tarjeta__in { padding: 24px 22px; } }
+  @media (min-width: 1100px) {
+    .servicios__lista { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 72px; }
+  }
+</style>

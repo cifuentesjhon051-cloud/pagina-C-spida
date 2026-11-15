@@ -1,0 +1,26 @@
+---
+import { enlaces } from '../content';
+---
+<footer class="pie">
+  <div class="pie__fila">
+    <a class="pie__marca" href="#inicio" aria-label="Cúspida, volver al inicio">
+      <img src="/emblema.svg" alt="" width="56" height="74" />
+      <span><strong class="oro">CÚSPIDA</strong><small>ELEVACIÓN EMPRESARIAL</small></span>
+    </a>
+    <nav aria-label="Pie">{enlaces.map((e) => <a href={e.href}>{e.texto}</a>)}</nav>
+  </div>
+  <div class="pie__base"><span>© 2026 Cúspida · Medellín, Colombia</span><a href="/privacidad">Política de tratamiento de datos</a></div>
+</footer>
+
+<style>
+  .pie { background: var(--noche); color: rgba(248, 245, 236, .7); padding: 52px var(--pad) 40px; font-size: 14px; }
+  .pie__fila { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+  .pie__marca { display: flex; align-items: center; gap: 20px; }
+  .pie__marca img { height: 70px; width: auto; }
+  .pie__marca strong { display: block; font-family: var(--serif); font-size: 24px; letter-spacing: .14em; }
+  .pie__marca small { display: block; letter-spacing: .24em; font-size: 11px; color: var(--oro); }
+  nav { display: flex; gap: 28px; flex-wrap: wrap; }
+  nav a:hover, .pie__base a:hover { color: var(--oro-claro); }
+  .pie__base { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 34px; padding-top: 22px; border-top: 1px solid rgba(212, 175, 55, .2); }
+  @media (max-width: 700px) { .pie { text-align: center; padding-bottom: 96px; } .pie__fila, .pie__base { justify-content: center; flex-direction: column; } .pie__marca { flex-direction: column; gap: 10px; } nav { justify-content: center; gap: 12px 22px; } }
+</style>

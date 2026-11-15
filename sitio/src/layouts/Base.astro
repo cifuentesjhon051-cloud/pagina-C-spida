@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import { config } from '../config';
+interface Props { titulo?: string; descripcion?: string; noindex?: boolean; }
+const {
+  titulo = 'Cúspida · Sistemas y automatización para tu empresa en Medellín',
+  descripcion = 'Consultoría en Medellín, Colombia: diagnosticamos tu empresa y construimos sistemas a la medida, integración de flujos de trabajo y herramientas con inteligencia artificial para automatizar tu negocio.',
+  noindex = false,
+} = Astro.props;
+const url = config.sitio ? config.sitio + Astro.url.pathname : undefined;
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: config.nombre,
+  slogan: config.eslogan,
+  description: descripcion,
+  areaServed: { '@type': 'Country', name: 'Colombia' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Medellín', addressRegion: 'Antioquia', addressCountry: 'CO' },
+  ...(config.sitio ? { url: config.sitio, logo: config.sitio + '/emblema.svg' } : {}),
+};
+---
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <meta name="theme-color" content="#0F1B33" />
+    {noindex && <meta name="robots" content="noindex" />}
+    {url && <link rel="canonical" href={url} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fuentes/Cinzel-600.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fuentes/Montserrat-500.ttf" as="font" type="font/ttf" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    {url && <meta property="og:url" content={url} />}
+    {config.sitio && <meta property="og:image" content={config.sitio + '/og.png'} />}
+    {config.sitio && <meta property="og:image:width" content="1200" />}
+    {config.sitio && <meta property="og:image:height" content="630" />}
+    <meta name="twitter:card" content={config.sitio ? 'summary_large_image' : 'summary'} />
+    {config.sitio && <meta name="twitter:image" content={config.sitio + '/og.png'} />}
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </head>
+  <body>
+    <a class="salto" href="#contenido">Saltar al contenido</a>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,54 @@
+---
+import Icono from './Icono.astro';
+import { enlaces } from '../content';
+import { agendaHref } from '../config';
+---
+<header class="cab" data-cabecera>
+  <a class="cab__marca" href="#inicio" aria-label="Cúspida, ir al inicio">
+    <img src="/emblema.svg" alt="" width="30" height="40" />
+    <span class="oro">CÚSPIDA</span>
+  </a>
+  <nav class="cab__nav" id="menu" aria-label="Principal">
+    {enlaces.map((e) => <a href={e.href}>{e.texto}</a>)}
+  </nav>
+  <a class="btn btn--oro cab__cta" href={agendaHref}><span class="cab__largo">Agenda tu diagnóstico</span><span class="cab__corto">Agenda</span></a>
+  <button class="cab__burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+    <span class="abrir"><Icono nombre="menu" tamano={28} color="#F3DC8B" /></span>
+    <span class="cerrar"><Icono nombre="cerrar" tamano={28} color="#F3DC8B" /></span>
+  </button>
+</header>
+
+<style>
+  .cab {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: var(--cabecera); display: flex; align-items: center; gap: 28px;
+    padding-inline: clamp(16px, 3.4vw, 48px); background: rgba(15, 27, 51, .94); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(212, 175, 55, .25); color: var(--marfil); font-size: 14px; letter-spacing: .05em;
+    transform: translateY(-101%); transition: transform .4s cubic-bezier(.22, .8, .3, 1);
+  }
+  :global(body.con-cabecera) .cab, .cab:focus-within { transform: none; }
+  .cab__marca { display: flex; align-items: center; gap: 12px; font-family: var(--serif); font-size: 19px; letter-spacing: .14em; }
+  .cab__marca img { height: 38px; width: auto; }
+  .cab__nav { margin-left: auto; display: flex; gap: clamp(16px, 2.4vw, 34px); }
+  .cab__nav a { padding: 6px 0; border-bottom: 1px solid transparent; transition: border-color .25s, color .25s; }
+  .cab__nav a:hover { color: var(--oro-claro); border-color: var(--oro); }
+  .cab__cta { padding: 10px 20px; font-size: 13.5px; }
+  .cab__corto { display: none; }
+  .cab__burger { display: none; background: none; border: 0; padding: 4px; cursor: pointer; margin-left: auto; }
+  .cab__burger .cerrar { display: none; }
+  .cab__burger[aria-expanded='true'] .cerrar { display: block; }
+  .cab__burger[aria-expanded='true'] .abrir { display: none; }
+  @media (max-width: 900px) {
+    .cab { gap: 12px; }
+    .cab__marca { font-size: 16px; }
+    .cab__cta { margin-left: auto; padding: 8px 16px; font-size: 13px; }
+    .cab__largo { display: none; }
+    .cab__corto { display: inline; }
+    .cab__burger { display: block; margin-left: 0; }
+    .cab__nav {
+      position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; margin: 0; padding: 8px 20px 18px;
+      background: rgba(15, 27, 51, .98); border-bottom: 1px solid rgba(212, 175, 55, .25); display: none;
+    }
+    .cab__nav a { padding: 14px 0; font-size: 16px; border-bottom: 1px solid rgba(248, 245, 236, .1); }
+    .cab[data-abierto] .cab__nav { display: flex; }
+  }
+</style>

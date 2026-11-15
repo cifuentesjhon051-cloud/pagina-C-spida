@@ -1,0 +1,64 @@
+---
+import Icono from './Icono.astro';
+import { config, waHref, agendaHref } from '../config';
+---
+<section class="contacto" id="contacto">
+  <div class="contacto__grid">
+    <div data-revelar>
+      <div class="sobre" style="color: var(--oro)">Contacto</div>
+      <h2 class="oro">Hablemos de tu empresa</h2>
+      <p class="contacto__texto">Cuéntanos tu caso por WhatsApp o agenda tu diagnóstico. Si trabajamos juntos, el diagnóstico te sale gratis: su valor se descuenta de tu proyecto.</p>
+      <div class="contacto__botones">
+        <a class="btn btn--wa" href={waHref('Hola, quiero contarles mi caso.')} target={config.whatsapp ? '_blank' : undefined} rel="noopener"><Icono nombre="chat" tamano={20} color="#fff" /> Escríbenos por WhatsApp</a>
+        <a class="btn btn--oro" href={agendaHref} target={config.agenda ? '_blank' : undefined} rel="noopener"><Icono nombre="calendario" tamano={20} color="#0F1B33" /> Agenda tu diagnóstico</a>
+      </div>
+      <p class="contacto__lugar">Medellín, Colombia · Atendemos a empresas de todo el país</p>
+    </div>
+
+    <form class="form" id="formulario" novalidate data-revelar
+      data-supabase-url={config.supabaseUrl} data-supabase-key={config.supabaseKey} data-whatsapp={config.whatsapp} data-correo={config.correo}>
+      <div class="form__fila">
+        <label><span>Nombre</span><input name="nombre" type="text" autocomplete="name" required maxlength="120" /></label>
+        <label><span>Empresa</span><input name="empresa" type="text" autocomplete="organization" maxlength="160" /></label>
+      </div>
+      <label><span>WhatsApp o correo</span><input name="contacto" type="text" autocomplete="off" required maxlength="160" /></label>
+      <label><span>¿Qué necesitas?</span><textarea name="mensaje" rows="4" maxlength="2000"></textarea></label>
+      <label class="form__trampa" aria-hidden="true">No llenes este campo<input name="web" type="text" tabindex="-1" autocomplete="off" /></label>
+      <label class="form__acepto">
+        <input name="acepto" type="checkbox" required />
+        <span>Autorizo el tratamiento de mis datos según la <a href="/privacidad">política de tratamiento de datos</a>.</span>
+      </label>
+      <button class="btn btn--oro" type="submit">Enviar</button>
+      <p class="form__estado" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .contacto { background: var(--azul-prof); color: var(--marfil); padding: clamp(72px, 8vw, 124px) var(--pad); }
+  .contacto__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 80px); align-items: center; }
+  h2 { margin-top: 12px; }
+  .contacto__texto { margin-top: 20px; opacity: .92; max-width: 520px; }
+  .contacto__botones { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
+  .contacto__lugar { margin-top: 26px; font-size: 14px; opacity: .6; }
+  .form { padding: clamp(22px, 3vw, 34px); border-radius: 20px; background: var(--azul); border: 1px solid rgba(212, 175, 55, .35); display: grid; gap: 14px; }
+  .form__fila { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form label { display: grid; gap: 6px; font-size: 13px; letter-spacing: .04em; color: rgba(248, 245, 236, .75); }
+  .form input[type='text'], .form textarea {
+    font: inherit; font-size: 15px; color: var(--marfil); background: rgba(15, 27, 51, .5); border: 1px solid rgba(248, 245, 236, .28);
+    border-radius: 10px; padding: 13px 14px; width: 100%; transition: border-color .2s, box-shadow .2s;
+  }
+  .form textarea { resize: vertical; min-height: 104px; }
+  .form input:focus, .form textarea:focus { outline: none; border-color: var(--oro-claro); box-shadow: 0 0 0 3px rgba(243, 220, 139, .2); }
+  .form [aria-invalid='true'] { border-color: #FF9C8A !important; }
+  .form__acepto { grid-template-columns: auto 1fr !important; align-items: start; gap: 10px !important; font-size: 13px !important; line-height: 1.45; }
+  .form__acepto input { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--oro); }
+  .form__acepto a { color: var(--oro-claro); text-decoration: underline; }
+  .form__trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .form .btn { width: 100%; }
+  .form .btn[disabled] { opacity: .6; cursor: progress; }
+  .form__estado { min-height: 1.4em; font-size: 14px; text-align: center; }
+  .form__estado[data-tipo='ok'] { color: #9BE3B0; } .form__estado[data-tipo='error'] { color: #FFB3A6; }
+  @media (max-width: 900px) { .contacto__grid { grid-template-columns: 1fr; } .contacto__botones .btn { width: 100%; } }
+  @media (max-width: 520px) { .form__fila { grid-template-columns: 1fr; } }
+</style>

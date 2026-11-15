@@ -1,0 +1,69 @@
+---
+import emblemaRaw from '../assets/emblema.svg?raw';
+import { pasos } from '../content';
+const llama = emblemaRaw.match(/<g id="llama"[^>]*><path d="([^"]+)"/)![1];
+const ruta = 'M200 658L320 600L460 542L400 460L490 395L570 320L535 245L575 150L600 62';
+const nodos: [number, number][] = [[320, 600], [400, 460], [570, 320], [600, 62]];
+---
+<section class="proceso" id="proceso">
+  <div class="proceso__grid">
+    <div class="proceso__izq">
+      <header data-revelar>
+        <div class="sobre" style="color: var(--oro)">Paso a paso</div>
+        <h2 class="oro">Cómo trabajamos</h2>
+      </header>
+      <ol class="proceso__pasos">
+        {pasos.map((p, i) => (
+          <li class="paso" data-paso={i}>
+            <span class="paso__n">{i + 1}</span>
+            <div class="paso__caja"><h3>{p.titulo}</h3><p>{p.texto}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <svg class="proceso__monte" viewBox="0 -70 1000 790" role="img" aria-label="Una montaña con una ruta de cuatro paradas que sube hasta la cumbre, coronada por una llama">
+      <defs>
+        <radialGradient id="alba" cx="620" cy="370" r="560" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".85" /><stop offset=".4" stop-color="#F3C95A" stop-opacity=".35" /><stop offset="1" stop-color="#F3C95A" stop-opacity="0" /></radialGradient>
+        <linearGradient id="oroM" x1="560" y1="20" x2="640" y2="116" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F3DC8B" /><stop offset=".45" stop-color="#D9B647" /><stop offset="1" stop-color="#B38D2A" /></linearGradient>
+        <linearGradient id="bajada" x1="0" y1="540" x2="0" y2="712" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" /><stop offset="1" stop-color="#000" /></linearGradient>
+        <mask id="difuminar" maskUnits="userSpaceOnUse" x="-600" y="-300" width="2800" height="1600"><rect x="-600" y="-300" width="2800" height="1600" fill="url(#bajada)" /></mask>
+        <filter id="fuego" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="7" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+      </defs>
+      <rect x="-200" y="-70" width="1400" height="790" fill="url(#alba)" />
+      <g mask="url(#difuminar)">
+        <path d="M30 710L260 410L360 490L490 320L600 450L740 280L860 410L1000 320L1500 620V900H30Z" fill="#4A5B90" opacity=".5" />
+        <path d="M120 710L380 370L440 410L600 20L570 180L620 330L560 490L600 710Z" fill="#16254B" />
+        <path d="M600 20L710 250L770 210L1500 1000V1100H600L560 490L620 330L570 180Z" fill="#2C4279" />
+        <path d="M600 20L638 100L614 84L602 116L582 88L562 106Z" fill="url(#oroM)" />
+      </g>
+      <path d={ruta} fill="none" stroke="#F3DC8B" stroke-width="3" stroke-dasharray="1 9" stroke-linecap="round" stroke-linejoin="round" opacity=".45" />
+      <path class="ruta" d={ruta} pathLength="1" fill="none" stroke="#F3DC8B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="llama" transform="translate(600 16) scale(1.5) translate(0 122)" d={llama} fill="#F3DC8B" filter="url(#fuego)" />
+      {nodos.map(([x, y], i) => (
+        <g class="nodo" data-nodo={i}><circle cx={x} cy={y} r="20" fill="#0F1B33" stroke="#F3DC8B" stroke-width="2.6" /><text x={x} y={y + 7} text-anchor="middle" font-family="Cinzel, serif" font-weight="600" font-size="20" fill="#F3DC8B">{i + 1}</text></g>
+      ))}
+    </svg>
+  </div>
+</section>
+
+<style>
+  .proceso { background: linear-gradient(180deg, #0F1B33 0%, #1F2F5C 26%, #55517A 46%, #C79A6B 66%, #F1D9A6 84%, #F8F5EC 100%); padding: clamp(72px, 8vw, 128px) var(--pad) 0; color: var(--marfil); overflow: hidden; }
+  .proceso__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(24px, 4vw, 70px); align-items: end; }
+  .proceso__izq { align-self: start; }
+  .proceso__izq h2 { margin-top: 12px; }
+  .proceso__pasos { display: flex; flex-direction: column; gap: clamp(18px, 2.4vw, 34px); margin-top: 40px; position: relative; padding-bottom: clamp(40px, 6vw, 90px); }
+  .paso { display: flex; gap: 16px; align-items: flex-start; transition: opacity .5s, translate .5s; }
+  .paso.pendiente { opacity: .38; translate: -8px 0; }
+  .paso__n { width: 38px; height: 38px; border-radius: 50%; background: var(--azul-prof); border: 2px solid var(--oro-claro); color: var(--oro-claro); font-family: var(--serif); font-size: 17px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .paso__caja { flex: 1; padding: 16px 20px; border-radius: 14px; border: 1px solid rgba(212, 175, 55, .5); background: rgba(15, 27, 51, .78); }
+  .paso h3 { font-size: clamp(17px, 1.5vw, 20px); color: var(--oro-claro); }
+  .paso p { font-size: 14.5px; opacity: .92; margin-top: 4px; }
+  .proceso__monte { width: 100%; height: auto; margin-bottom: -1px; overflow: visible; }
+  .nodo { transition: opacity .5s; } .nodo.pendiente { opacity: .35; }
+  @media (max-width: 900px) {
+    .proceso__grid { grid-template-columns: 1fr; align-items: start; }
+    .proceso__pasos { flex-direction: column; padding-bottom: 8px; margin-top: 26px; }
+    .proceso__monte { margin-inline: -20px; width: calc(100% + 40px); max-width: none; }
+    .paso.pendiente { translate: 0 0; }
+  }
+</style>

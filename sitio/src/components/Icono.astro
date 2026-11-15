@@ -1,0 +1,24 @@
+---
+import { gearD } from '../lib/engranajes';
+interface Props { nombre: string; tamano?: number; color?: string; }
+const { nombre, tamano = 44, color = '#D4AF37' } = Astro.props;
+const trazos: Record<string, string> = {
+  lupa: '<circle cx="21" cy="21" r="11.5"/><path d="M29.5 29.5L41 41M16 21h10M21 16v10"/>',
+  diana: '<circle cx="23" cy="25" r="15"/><circle cx="23" cy="25" r="7"/><path d="M23 25L40 8M33 8h7v7"/>',
+  engranaje: `<path d="${gearD(24, 24, 18, 13.5, 8, 0, 0)}"/><circle cx="24" cy="24" r="5.5"/>`,
+  chispa: '<path d="M22 8C23.5 19 28 23.5 39 25C28 26.5 23.5 31 22 42C20.5 31 16 26.5 5 25C16 23.5 20.5 19 22 8Z"/><path d="M38 6C38.6 10 40 11.4 44 12C40 12.6 38.6 14 38 18C37.4 14 36 12.6 32 12C36 11.4 37.4 10 38 6Z"/>',
+  llave: '<circle cx="16" cy="24" r="9"/><path d="M25 24h18M36 24v7M42 24v5"/>',
+  doc: '<path d="M13 6h16l8 8v28H13z"/><path d="M29 6v8h8M19 24h12M19 31h12"/>',
+  libre: '<rect x="9" y="22" width="24" height="18" rx="3"/><path d="M15 22v-6a8 8 0 0 1 15.5-3"/><circle cx="21" cy="31" r="2"/>',
+  nube: '<path d="M14 36a9 9 0 0 1 1.5-17.9A12 12 0 0 1 38.6 21 7.6 7.6 0 0 1 36 36z"/><path d="M19 28l4.5 4.5L31 24"/>',
+  persona: '<circle cx="24" cy="16" r="8"/><path d="M8 42a16 16 0 0 1 32 0"/>',
+  sello: '<circle cx="24" cy="19" r="12"/><path d="M17 29l-4 14 11-6 11 6-4-14M19 19l3.5 3.5L29 16"/>',
+  reloj: '<circle cx="24" cy="24" r="17"/><path d="M24 13v11l7 5"/>',
+  pin: '<path d="M24 43S9 29 9 19a15 15 0 0 1 30 0c0 10-15 24-15 24z"/><circle cx="24" cy="19" r="5.5"/>',
+  chat: '<path d="M8 10h32v22H22l-9 8v-8H8z"/><path d="M16 18h16M16 24h10"/>',
+  calendario: '<rect x="7" y="10" width="34" height="30" rx="4"/><path d="M7 19h34M16 6v8M32 6v8M19 29l3.5 3.5L29 26"/>',
+  menu: '<path d="M8 14h32M8 24h32M8 34h32"/>',
+  cerrar: '<path d="M12 12l24 24M36 12L12 36"/>',
+};
+---
+<svg viewBox="0 0 48 48" width={tamano} height={tamano} fill="none" stroke={color} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="flex:none" set:html={trazos[nombre]} />

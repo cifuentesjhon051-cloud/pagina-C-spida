@@ -1,0 +1,35 @@
+---
+import { faqs } from '../content';
+---
+<section class="faq" id="preguntas">
+  <header data-revelar>
+    <div class="sobre" style="color: var(--oro-viejo)">Antes de escribirnos</div>
+    <h2>Preguntas frecuentes</h2>
+  </header>
+  <div class="faq__lista">
+    {faqs.map((f, i) => (
+      <details class="faq__item" open={i === 0}>
+        <summary><span>{f.q}</span><i aria-hidden="true"></i></summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq { background: #fff; color: var(--tinta); padding: clamp(64px, 8vw, 112px) var(--pad) clamp(64px, 8vw, 120px); }
+  header { text-align: center; }
+  h2 { color: var(--azul); margin-top: 12px; }
+  .faq__lista { max-width: 940px; margin: 54px auto 0; }
+  .faq__item { border-bottom: 1px solid rgba(27, 43, 79, .18); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 6px; cursor: pointer; list-style: none; color: var(--azul); font-size: clamp(16px, 1.4vw, 18.5px); line-height: 1.4; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--oro-viejo); }
+  summary i { position: relative; width: 16px; height: 16px; flex: none; }
+  summary i::before, summary i::after { content: ''; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--oro-viejo); transition: transform .3s; }
+  summary i::after { transform: rotate(90deg); }
+  details[open] summary i::after { transform: rotate(0); }
+  .faq__item p { padding: 0 6px 24px; max-width: 760px; opacity: .78; font-size: 15.5px; animation: abrir .35s ease; }
+  @keyframes abrir { from { opacity: 0; translate: 0 -6px; } }
+  @media (max-width: 700px) { .faq__lista { margin-top: 30px; } summary { padding: 17px 2px; } }
+</style>

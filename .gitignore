@@ -1,0 +1,10 @@
+# Dependencias, compilación y datos locales
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.claude/
+*.log
+.DS_Store

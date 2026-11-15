@@ -1,0 +1,102 @@
+---
+import Icono from './Icono.astro';
+import { hosting } from '../content';
+
+// Ciudad de servidores, generada al compilar (siempre igual). Tres planos de profundidad; las luces parpadean.
+function mulberry(a: number) { return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const f = (n: number) => Math.round(n * 100) / 100;
+
+interface Cfg { W: number; H: number; sunX: number; sunY: number; sunR: number; s: number; back: [number, number, number, number]; mid: [number, number, number, number]; front: number[][]; skipA: number; skipB: number; }
+function ciudad(c: Cfg, semilla: number) {
+  const rnd = mulberry(semilla);
+  const { W, H, sunX, sunY, sunR, s } = c;
+  const torre = (x: number, w: number, h: number, plano: 'fondo' | 'medio' | 'frente') => {
+    const y = H - h, col = { fondo: ['#42548C', 0.5], medio: ['#22366A', 1], frente: ['#111E3D', 1] }[plano] as [string, number];
+    let t = `<g class="torre torre--${plano}" opacity="${col[1]}"><rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h + 4)}" rx="${3 * s}" fill="${col[0]}"/>`;
+    t += `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${5 * s}" rx="${2 * s}" fill="#D4AF37" opacity="${plano === 'fondo' ? 0.35 : 0.75}"/>`;
+    const rim = x + w / 2 < sunX ? x + w - 2.5 * s : x;
+    t += `<rect x="${f(rim)}" y="${f(y + 5 * s)}" width="${2.5 * s}" height="${f(h)}" fill="#F3DC8B" opacity="${plano === 'frente' ? 0.6 : plano === 'medio' ? 0.4 : 0.25}"/>`;
+    if (plano !== 'fondo') {
+      for (let yy = y + 17 * s; yy < H - 14 * s; yy += 20 * s) {
+        t += `<rect x="${f(x + 7 * s)}" y="${f(yy)}" width="${f(w - 14 * s)}" height="${11 * s}" rx="${2 * s}" fill="#fff" opacity=".04"/>`;
+        t += `<path d="M${f(x + w * 0.44)} ${f(yy + 5.5 * s)}H${f(x + w - 10 * s)}" stroke="#D4AF37" stroke-width="${s}" opacity=".28"/>`;
+        for (let i = 0; i < 2; i++) {
+          const on = rnd() < 0.55, parpadea = on && rnd() < 0.5;
+          t += `<circle class="${parpadea ? 'led' : ''}" cx="${f(x + 12 * s + i * 7.5 * s)}" cy="${f(yy + 5.5 * s)}" r="${2 * s}" fill="${on ? '#F3DC8B' : '#D4AF37'}" opacity="${on ? 1 : 0.3}"${parpadea ? ` style="--d:-${f(rnd() * 3.4)}s"` : ''}/>`;
+        }
+      }
+    }
+    return t + '</g>';
+  };
+  let fondo = '', medio = '', frente = '';
+  for (let x = -10; x < W; ) { const w = c.back[0] + rnd() * c.back[1], h = c.back[2] + rnd() * c.back[3]; if (!(x + w > c.skipA && x < c.skipB)) fondo += torre(x, w, h, 'fondo'); x += w + (14 + rnd() * 26) * s; }
+  for (let x = 20 * s; x < W; ) { const w = c.mid[0] + rnd() * c.mid[1], h = c.mid[2] + rnd() * c.mid[3]; if (!(x + w > c.skipA && x < c.skipB)) medio += torre(x, w, h, 'medio'); x += w + (26 + rnd() * 40) * s; }
+  for (const [x, w, h] of c.front) frente += torre(x, w, h, 'frente');
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="sol-${W}" cx="${sunX}" cy="${sunY}" r="${sunR}" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFF6D0"/><stop offset=".7" stop-color="#FBE08A"/><stop offset="1" stop-color="#F3C95A"/></radialGradient>
+      <radialGradient id="res-${W}" cx="${sunX}" cy="${sunY}" r="${sunR * 6}" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".75"/><stop offset=".35" stop-color="#F3C95A" stop-opacity=".3"/><stop offset="1" stop-color="#F3C95A" stop-opacity="0"/></radialGradient>
+    </defs>
+    <g class="hosting__sol"><rect width="${W}" height="${H}" fill="url(#res-${W})"/><circle cx="${sunX}" cy="${sunY}" r="${sunR}" fill="url(#sol-${W})"/></g>
+    ${fondo}${medio}${frente}
+    <rect y="${H - 5}" width="${W}" height="8" fill="#0F1B33"/>
+  </svg>`;
+}
+const escritorio = ciudad({ W: 1440, H: 860, sunX: 985, sunY: 640, sunR: 88, s: 1, back: [44, 28, 150, 100], mid: [72, 30, 205, 50], skipA: 890, skipB: 1085,
+  front: [[-20, 150, 222], [150, 120, 182], [300, 140, 246], [470, 110, 196], [610, 130, 236], [770, 100, 172], [890, 90, 148], [1000, 100, 170], [1120, 130, 360], [1270, 120, 505], [1400, 80, 420]] }, 5);
+const movil = ciudad({ W: 390, H: 330, sunX: 286, sunY: 180, sunR: 52, s: 0.62, back: [24, 14, 90, 70], mid: [38, 14, 110, 50], skipA: 238, skipB: 334,
+  front: [[-8, 70, 118], [70, 56, 88], [134, 64, 138], [206, 50, 84], [262, 44, 66], [312, 40, 76], [356, 44, 160]] }, 5);
+---
+<section class="hosting" id="hosting">
+  <div class="hosting__cielo" aria-hidden="true"></div>
+  <div class="hosting__svg hosting__svg--grande" set:html={escritorio} />
+  <div class="hosting__svg hosting__svg--chico" set:html={movil} />
+  <div class="hosting__contenido">
+    <div class="hosting__marca"><span class="sobre">Hosting y respaldos</span><span class="pildora">Muy pronto</span></div>
+    <h2 class="oro">Tu web y tus sistemas, en un lugar seguro</h2>
+    <p class="hosting__texto">Alojamos tu página y tus sistemas completos en nuestros servidores, y respaldamos tu información de forma automática. Pase lo que pase, tu trabajo sigue ahí.</p>
+    <ul class="hosting__datos">
+      {hosting.datos.map((d) => (
+        <li><Icono nombre={d.icono} tamano={28} color="#F3DC8B" /><div><strong>{d.titulo}</strong><span>{d.texto}</span></div></li>
+      ))}
+    </ul>
+    <div class="hosting__acciones">
+      <a class="btn btn--oro" href="#contacto" data-interes="Quiero que me avisen cuando esté disponible el servicio de hosting y respaldos.">Avísame cuando esté disponible</a>
+      <span class="hosting__cierre">Para que nunca pierdas nada.</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hosting {
+    --cielo: linear-gradient(180deg, #0F1B33 0%, #1F2F5C 30%, #5B4A6B 53%, #C9824A 72%, #F0C25A 86%, #FBE7A8 100%);
+    min-height: 860px; height: 100svh; max-height: 1000px; overflow: hidden; color: var(--marfil); isolation: isolate;
+  }
+  .hosting__cielo { position: absolute; inset: 0; background: var(--cielo); z-index: -2; }
+  /* El blanco de la sección anterior se va tiñendo hasta volverse atardecer */
+  .hosting__cielo::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 190px; background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0)); }
+  .hosting__svg { position: absolute; inset: 0; z-index: -1; }
+  .hosting__svg :global(svg) { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; }
+  .hosting__svg--chico { display: none; }
+  .hosting__contenido { position: relative; z-index: 2; padding: 112px var(--pad) 0; max-width: 840px; }
+  .hosting__marca { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .hosting__marca .sobre { color: var(--oro-claro); }
+  .pildora { font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--oro-claro); color: var(--oro-claro); white-space: nowrap; }
+  h2 { margin-top: 16px; }
+  .hosting__texto { margin-top: 20px; font-size: clamp(15px, 1.35vw, 17.5px); max-width: 640px; }
+  .hosting__datos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 28px; }
+  .hosting__datos li { display: flex; flex-direction: column; gap: 8px; padding: 14px; border-radius: 12px; border: 1px solid rgba(243, 220, 139, .5); background: rgba(15, 27, 51, .5); backdrop-filter: blur(3px); }
+  .hosting__datos strong { display: block; font-weight: 500; font-size: 14px; color: var(--oro-claro); line-height: 1.3; }
+  .hosting__datos span { display: block; font-size: 12.5px; opacity: .8; line-height: 1.4; margin-top: 2px; }
+  .hosting__acciones { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; margin-top: 28px; }
+  .hosting__cierre { font-family: var(--serif); font-size: 19px; color: #FFF6D8; text-shadow: 0 1px 8px rgba(15, 27, 51, .8); }
+  @media (max-width: 700px) {
+    .hosting { height: auto; max-height: none; min-height: 0; padding-bottom: 330px; }
+    .hosting__svg--grande { display: none; }
+    .hosting__svg--chico { display: block; inset: auto 0 0 0; height: 330px; }
+    .hosting__contenido { padding: 84px 22px 0; }
+    .hosting__datos { grid-template-columns: 1fr; gap: 9px; }
+    .hosting__datos li { flex-direction: row; align-items: center; gap: 12px; padding: 10px 14px; }
+    .hosting__acciones { flex-direction: column; align-items: stretch; text-align: center; gap: 16px; }
+  }
+</style>
