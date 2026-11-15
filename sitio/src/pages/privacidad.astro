@@ -15,6 +15,13 @@ import { config } from '../config';
     <h2>2. Qué datos recogemos</h2>
     <p>Solo los que nos escribes en el formulario de contacto: nombre, empresa (opcional), un medio de contacto (WhatsApp o correo) y el mensaje. No recogemos datos sensibles.</p>
 
+    {config.umamiId && (
+      <>
+        <h2>Estadísticas de uso</h2>
+        <p>Para saber cuántas personas visitan el sitio, cómo llegaron y qué secciones consultan, usamos una herramienta de analítica que no usa cookies ni guarda tu dirección IP completa ni datos que te identifiquen. Respeta la opción «No rastrear» de tu navegador.</p>
+      </>
+    )}
+
     <h2>3. Para qué los usamos</h2>
     <p>Para responder tu solicitud, agendar un diagnóstico, enviarte la información que pediste y, si lo pides, avisarte cuando estén disponibles nuevos servicios. No vendemos ni compartimos tus datos con terceros para fines comerciales.</p>
 

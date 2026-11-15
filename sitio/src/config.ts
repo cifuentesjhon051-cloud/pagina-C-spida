@@ -16,6 +16,9 @@ export const config = {
   supabaseKey: env.PUBLIC_SUPABASE_ANON_KEY ?? '',
   // Dirección pública del sitio, cuando exista el dominio
   sitio: (env.PUBLIC_SITE_URL ?? '').replace(/\/$/, ''),
+  // Analítica sin cookies (Umami). Sin ID, no se carga nada.
+  umamiId: env.PUBLIC_UMAMI_ID ?? '',
+  umamiSrc: env.PUBLIC_UMAMI_SRC ?? 'https://cloud.umami.is/script.js',
   // Para la política de datos (Ley 1581 de 2012)
   responsable: env.PUBLIC_RESPONSABLE ?? 'Cúspida',
   nit: env.PUBLIC_NIT ?? '',

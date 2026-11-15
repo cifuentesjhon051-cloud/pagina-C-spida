@@ -8,6 +8,9 @@ const {
   noindex = false,
 } = Astro.props;
 const url = config.sitio ? config.sitio + Astro.url.pathname : undefined;
+// Solo se mide el sitio publicado (no localhost ni pruebas), con y sin "www"
+const host = config.sitio ? new URL(config.sitio).hostname.replace(/^www\./, '') : '';
+const dominios = host ? `${host},www.${host}` : undefined;
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
@@ -43,6 +46,9 @@ const ld = {
     <meta name="twitter:card" content={config.sitio ? 'summary_large_image' : 'summary'} />
     {config.sitio && <meta name="twitter:image" content={config.sitio + '/og.png'} />}
     <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    {config.umamiId && (
+      <script is:inline defer src={config.umamiSrc} data-website-id={config.umamiId} data-do-not-track="true" data-domains={dominios} />
+    )}
   </head>
   <body>
     <a class="salto" href="#contenido">Saltar al contenido</a>

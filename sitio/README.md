@@ -32,6 +32,19 @@ Copia `.env.example` como `.env` y completa los valores. Mientras estén vacíos
 
 Sin Supabase, el formulario abre WhatsApp (o el correo) con el mensaje ya escrito.
 
+## Analítica (Umami)
+
+El sitio mide visitas y comportamiento con [Umami](https://umami.is), que no usa cookies. Sin `PUBLIC_UMAMI_ID` no se carga nada. Para activarlo:
+
+1. Crea una cuenta en umami.is, añade el sitio `cuspida.com.co` y copia el **ID del sitio** (Website ID).
+2. Pégalo en `.env` como `PUBLIC_UMAMI_ID` y, en Cloudflare, agrégalo en las variables de entorno del proyecto. Vuelve a desplegar.
+
+Solo se mide el sitio publicado (el script ignora `localhost`). Respeta la opción «No rastrear» del navegador.
+
+Eventos que envía (`src/scripts/analitica.ts`): `vista_seccion` (qué secciones llegan a verse), `scroll` (25, 50, 75 y 90 %), `click_whatsapp`, `click_boton` (con el texto del botón y la sección), `click_menu`, `faq_abierta`, `formulario_iniciado` y `formulario_enviado`/`formulario_error`. No se envía ningún dato personal.
+
+**Para saber cómo te encontraron:** Umami muestra de dónde viene cada visita (Google, Instagram, WhatsApp, enlace directo…). Para distinguir campañas, añade `?utm_source=...` a los enlaces que compartas, por ejemplo `https://cuspida.com.co/?utm_source=instagram&utm_medium=bio` o `?utm_source=whatsapp&utm_medium=estado`.
+
 ## Contenido
 
 Los textos están en `src/content.ts`; los precios, en `src/content.ts` (caminos y preguntas). Las secciones son componentes en `src/components/`. Las animaciones están en `src/scripts/` (`hero.ts` para la portada, `animaciones.ts` para el resto).

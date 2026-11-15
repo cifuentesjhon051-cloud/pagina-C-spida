@@ -1,4 +1,6 @@
 // Envío del formulario: a Supabase si está configurado; si no, abre WhatsApp o el correo con el mensaje ya escrito.
+import { track } from './analitica';
+
 const form = document.querySelector<HTMLFormElement>('#formulario');
 
 if (form) {
@@ -37,17 +39,21 @@ if (form) {
         });
         if (!r.ok) throw new Error(String(r.status));
         form.reset();
+        track('formulario_enviado', { via: 'base_de_datos' });
         decir('¡Gracias! Recibimos tu mensaje y te escribiremos pronto.', 'ok');
       } else if (whatsapp) {
         open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
+        track('formulario_enviado', { via: 'whatsapp' });
         decir('Abrimos WhatsApp con tu mensaje listo para enviar.', 'ok');
       } else if (correo) {
+        track('formulario_enviado', { via: 'correo' });
         location.href = `mailto:${correo}?subject=${encodeURIComponent('Contacto desde la web')}&body=${encodeURIComponent(texto)}`;
         decir('Abrimos tu correo con el mensaje listo para enviar.', 'ok');
       } else {
         decir('El formulario aún no está conectado. Por favor, vuelve a intentarlo más tarde.', 'error');
       }
     } catch {
+      track('formulario_error');
       decir('No pudimos enviar tu mensaje. Inténtalo de nuevo en unos minutos.', 'error');
     } finally { boton.disabled = false; }
   });

@@ -22,7 +22,7 @@ const estrellas = Array.from({ length: 90 }, () => `<circle cx="${(rnd() * 1440)
         <h3 class="oro">{c.titulo}</h3>
         <p class="camino__texto">{c.texto}</p>
         <div class="camino__precio">{c.precio}</div>
-        <a class={`btn btn--${c.estilo}`} href={c.href} data-interes={c.interes}>{c.boton}</a>
+        <a class={`btn btn--${c.estilo}`} href={c.href} data-interes={c.interes} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener">{c.boton}</a>
       </article>
     ))}
   </div>
