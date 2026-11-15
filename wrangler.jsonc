@@ -1,0 +1,11 @@
+{
+  "name": "pagina-c-spida",
+  "compatibility_date": "2026-11-01",
+  "build": {
+    "command": "npm --prefix sitio ci && npm --prefix sitio run build"
+  },
+  "assets": {
+    "directory": "./sitio/dist",
+    "not_found_handling": "404-page"
+  }
+}
