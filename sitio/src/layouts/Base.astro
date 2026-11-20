@@ -23,6 +23,8 @@ const ld = {
   '@type': 'ProfessionalService',
   name: config.nombre,
   slogan: config.eslogan,
+  ...(config.correo ? { email: config.correo } : {}),
+  ...(config.whatsapp ? { telephone: '+' + config.whatsapp } : {}),
   description: descripcion,
   areaServed: { '@type': 'Country', name: 'Colombia' },
   address: { '@type': 'PostalAddress', addressLocality: 'Medellín', addressRegion: 'Antioquia', addressCountry: 'CO' },
