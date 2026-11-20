@@ -11,7 +11,7 @@ import { agendaHref } from '../config';
   <nav class="cab__nav" id="menu" aria-label="Principal">
     {enlaces.map((e) => <a href={e.href}>{e.texto}</a>)}
   </nav>
-  <a class="btn btn--oro cab__cta" href={agendaHref}><span class="cab__largo">Agenda tu diagnóstico</span><span class="cab__corto">Agenda</span></a>
+  <a class="btn btn--oro cab__cta" href={agendaHref} target={agendaHref.startsWith('http') ? '_blank' : undefined} rel="noopener"><span class="cab__largo">Agenda tu diagnóstico</span><span class="cab__corto">Agenda</span></a>
   <button class="cab__burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
     <span class="abrir"><Icono nombre="menu" tamano={28} color="#F3DC8B" /></span>
     <span class="cerrar"><Icono nombre="cerrar" tamano={28} color="#F3DC8B" /></span>

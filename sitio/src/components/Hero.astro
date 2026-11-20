@@ -17,7 +17,7 @@ const grad = (id: string) => `<defs><linearGradient id="${id}" gradientUnits="us
   <div class="hero__velo" aria-hidden="true"></div>
   <h1 class="solo-lectores">Cúspida · Elevación Empresarial: sistemas y automatización para tu empresa</h1>
 
-  <a class="btn btn--linea hero__cta" href={agendaHref}>Agenda tu diagnóstico</a>
+  <a class="btn btn--linea hero__cta" href={agendaHref} target={agendaHref.startsWith('http') ? '_blank' : undefined} rel="noopener">Agenda tu diagnóstico</a>
 
   <div class="hero__bloque" aria-hidden="true">
     <Fragment set:html={emblema} />
