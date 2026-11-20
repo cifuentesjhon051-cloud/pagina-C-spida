@@ -1,0 +1,44 @@
+---
+import { config } from '../config';
+---
+{config.gtmId && (
+  <div class="cookies" id="cookies" role="region" aria-label="Aviso de cookies" hidden>
+    <p>Usamos cookies de Google Analytics solo para medir cuántas personas visitan el sitio y cómo llegan. No las usamos para publicidad. <a href="/privacidad">Más información</a>.</p>
+    <div class="cookies__botones">
+      <button type="button" class="btn btn--oro" data-cookies="si">Aceptar</button>
+      <button type="button" class="btn btn--linea" data-cookies="no">Rechazar</button>
+    </div>
+  </div>
+)}
+
+<style>
+  .cookies {
+    position: fixed; left: 22px; bottom: 22px; z-index: 60; max-width: 440px; padding: 18px 20px; border-radius: 16px;
+    background: rgba(15, 27, 51, .97); border: 1px solid rgba(212, 175, 55, .45); color: var(--marfil); font-size: 14px; line-height: 1.5;
+    box-shadow: 0 18px 40px -12px rgba(0, 0, 0, .6); backdrop-filter: blur(8px);
+  }
+  .cookies[hidden] { display: none; }
+  .cookies a { color: var(--oro-claro); text-decoration: underline; }
+  .cookies__botones { display: flex; gap: 10px; margin-top: 14px; }
+  .cookies .btn { padding: 10px 22px; font-size: 14px; flex: 1; }
+  @media (max-width: 560px) { .cookies { left: 12px; right: 12px; bottom: 12px; max-width: none; } }
+</style>
+
+<script>
+  const aviso = document.getElementById('cookies');
+  if (aviso) {
+    const KEY = 'cuspida-cookies';
+    let elegido: string | null = null;
+    try { elegido = localStorage.getItem(KEY); } catch { /* sin almacenamiento: se vuelve a preguntar */ }
+    if (!elegido) aviso.hidden = false;
+    aviso.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLElement>('[data-cookies]');
+      if (!b) return;
+      const si = b.dataset.cookies === 'si';
+      try { localStorage.setItem(KEY, si ? 'si' : 'no'); } catch { /* ignorar */ }
+      const g = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
+      if (si && g) g('consent', 'update', { analytics_storage: 'granted' });
+      aviso.hidden = true;
+    });
+  }
+</script>

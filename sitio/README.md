@@ -32,6 +32,12 @@ Copia `.env.example` como `.env` y completa los valores. Mientras estén vacíos
 
 Sin Supabase, el formulario abre WhatsApp (o el correo) con el mensaje ya escrito.
 
+## Google Tag Manager y Google Analytics
+
+El contenedor `GTM-KJP68XNV` está en `sitio/.env.production` (`PUBLIC_GTM_ID`). El sitio carga Tag Manager con **Consent Mode**: la analítica solo se concede si la persona pulsa «Aceptar» en el aviso de cookies (`src/components/Cookies.astro`). Google Analytics 4 se configura dentro de Tag Manager (etiqueta de configuración de GA4 con tu ID de medición `G-…`, disparada en todas las páginas).
+
+Cada evento del sitio (secciones vistas, scroll, clics, formulario) también se envía a la capa de datos de Tag Manager como `cuspida_evento`, con estas variables: `evento_nombre`, `seccion`, `boton`, `profundidad`, `pregunta`, `destino` y `via`. En Tag Manager se usan creando variables de capa de datos y un activador de evento personalizado `cuspida_evento`.
+
 ## Analítica (Umami)
 
 El sitio mide visitas y comportamiento con [Umami](https://umami.is), que no usa cookies. Sin `PUBLIC_UMAMI_ID` no se carga nada. Para activarlo:

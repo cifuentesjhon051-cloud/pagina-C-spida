@@ -3,21 +3,28 @@
 type Datos = Record<string, string | number>;
 type Umami = { track: (nombre: string, datos?: Datos) => void };
 
-const activo = !!document.querySelector('script[data-website-id]');
+// Dos destinos posibles, cada uno solo si está instalado: Umami y Google Tag Manager (capa de datos "dataLayer").
+const hayUmami = !!document.querySelector('script[data-website-id]');
+const capa = (window as unknown as { dataLayer?: Record<string, unknown>[] }).dataLayer;
+const hayGtm = Array.isArray(capa);
+const activo = hayUmami || hayGtm;
 const cola: [string, Datos | undefined][] = [];
 const umami = () => (window as unknown as { umami?: Umami }).umami;
 
 function vaciar() { const u = umami(); while (u && cola.length) { const [n, d] = cola.shift()!; u.track(n, d); } }
 export function track(nombre: string, datos?: Datos) {
   if (!activo) return;
-  cola.push([nombre, datos]);
-  vaciar();
+  // En Tag Manager el evento se llama "cuspida_evento"; el nombre y los datos llegan como variables de la capa de datos.
+  if (hayGtm) capa!.push({ event: 'cuspida_evento', evento_nombre: nombre, ...datos });
+  if (hayUmami) { cola.push([nombre, datos]); vaciar(); }
 }
 
 if (activo) {
   // El script de Umami carga con "defer": si un evento llega antes, espera en cola unos segundos.
-  let vueltas = 0;
-  const espera = setInterval(() => { vaciar(); if (++vueltas > 40) { clearInterval(espera); cola.length = 0; } }, 250);
+  if (hayUmami) {
+    let vueltas = 0;
+    const espera = setInterval(() => { vaciar(); if (++vueltas > 40) { clearInterval(espera); cola.length = 0; } }, 250);
+  }
 
   const seccionDe = (el: Element) =>
     el.closest('section[id]')?.id ?? (el.closest('[data-cabecera]') ? 'cabecera' : el.closest('footer') ? 'pie' : el.classList.contains('wa-flot') ? 'flotante' : 'otro');

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { config } from '../config';
+import Cookies from '../components/Cookies.astro';
 interface Props { titulo?: string; descripcion?: string; noindex?: boolean; }
 const {
   titulo = 'Cúspida · Sistemas y automatización para tu empresa en Medellín',
@@ -11,6 +12,12 @@ const url = config.sitio ? config.sitio + Astro.url.pathname : undefined;
 // Solo se mide el sitio publicado (no localhost ni pruebas), con y sin "www"
 const host = config.sitio ? new URL(config.sitio).hostname.replace(/^www\./, '') : '';
 const dominios = host ? `${host},www.${host}` : undefined;
+// Google Tag Manager con "Consent Mode": todo parte denegado y solo se concede la analítica si la persona acepta.
+// La elección se guarda en el navegador ("cuspida-cookies"). No hay publicidad, así que ad_* siempre queda denegado.
+const gtm = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
+try{if(localStorage.getItem('cuspida-cookies')==='si')gtag('consent','update',{analytics_storage:'granted'})}catch(e){}
+(function(w,d,s,l,i){w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','${config.gtmId}');`;
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
@@ -46,12 +53,15 @@ const ld = {
     <meta name="twitter:card" content={config.sitio ? 'summary_large_image' : 'summary'} />
     {config.sitio && <meta name="twitter:image" content={config.sitio + '/og.png'} />}
     <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    {config.gtmId && <script is:inline set:html={gtm} />}
     {config.umamiId && (
       <script is:inline defer src={config.umamiSrc} data-website-id={config.umamiId} data-do-not-track="true" data-domains={dominios} />
     )}
   </head>
   <body>
+    {config.gtmId && <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${config.gtmId}`} height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>}
     <a class="salto" href="#contenido">Saltar al contenido</a>
     <slot />
+    <Cookies />
   </body>
 </html>

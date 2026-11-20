@@ -19,6 +19,8 @@ export const config = {
   // Analítica sin cookies (Umami). Sin ID, no se carga nada.
   umamiId: env.PUBLIC_UMAMI_ID ?? '',
   umamiSrc: env.PUBLIC_UMAMI_SRC ?? 'https://cloud.umami.is/script.js',
+  // Google Tag Manager (contenedor "GTM-XXXXXXX"); desde ahí se configura Google Analytics 4. Sin ID, no se carga nada.
+  gtmId: /^GTM-[A-Z0-9]+$/.test(env.PUBLIC_GTM_ID ?? '') ? (env.PUBLIC_GTM_ID as string) : '',
   // Para la política de datos (Ley 1581 de 2012)
   responsable: env.PUBLIC_RESPONSABLE ?? 'Cúspida',
   nit: env.PUBLIC_NIT ?? '',
