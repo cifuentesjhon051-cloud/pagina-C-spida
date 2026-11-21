@@ -1,7 +1,8 @@
 ---
 import emblemaRaw from '../assets/emblema.svg?raw';
 import logoRaw from '../assets/logo-completo.svg?raw';
-import { agendaHref } from '../config';
+import { agendaHref, waHref } from '../config';
+import { precioAuditoria } from '../content';
 
 const nombreD = logoRaw.match(/id="nombre"[^>]*d="([^"]+)"/)![1];
 const esloganD = logoRaw.match(/id="eslogan"[^>]*d="([^"]+)"/)![1];
@@ -11,13 +12,11 @@ const emblema = emblemaRaw
   .replace(/<title>[^<]*<\/title>/, '').replace(/ role="img" aria-label="[^"]*"/, '')
   .replace('<svg ', '<svg class="hero__emblema" aria-hidden="true" focusable="false" ');
 const grad = (id: string) => `<defs><linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="-200" y1="170" x2="200" y2="280"><stop offset="0" stop-color="#F3DC8B"/><stop offset=".45" stop-color="#D9B647"/><stop offset="1" stop-color="#B38D2A"/></linearGradient></defs>`;
+const externa = agendaHref.startsWith('http');
 ---
 <section class="hero" id="inicio" data-hero>
   <canvas class="hero__lienzo" aria-hidden="true"></canvas>
   <div class="hero__velo" aria-hidden="true"></div>
-  <h1 class="solo-lectores">Cúspida · Elevación Empresarial: sistemas y automatización para tu empresa</h1>
-
-  <a class="btn btn--linea hero__cta" href={agendaHref} target={agendaHref.startsWith('http') ? '_blank' : undefined} rel="noopener">Agenda tu diagnóstico</a>
 
   <div class="hero__bloque" aria-hidden="true">
     <Fragment set:html={emblema} />
@@ -29,41 +28,49 @@ const grad = (id: string) => `<defs><linearGradient id="${id}" gradientUnits="us
     </div>
   </div>
 
-  <p class="hero__linea">Sistemas y automatización para que tu empresa llegue más alto.</p>
-  <a class="hero__bajar" href="#servicios" aria-label="Ir a servicios">
-    <svg viewBox="0 0 28 16" width="26" height="15" fill="none" stroke="#D4AF37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l11 10L25 3" /></svg>
-  </a>
+  <div class="hero__texto">
+    <h1><span class="solo-lectores">Cúspida, Elevación Empresarial. </span>Recupera <span class="oro">las horas</span> que tu negocio pierde en trabajo manual.</h1>
+    <p class="hero__sub">Auditamos tus procesos y convertimos el trabajo repetitivo en sistemas que trabajan por ti: menos errores, menos desorden y más tiempo para dirigir tu negocio.</p>
+    <div class="hero__botones">
+      <a class="btn btn--oro" href={agendaHref} target={externa ? '_blank' : undefined} rel="noopener">Agenda una reunión sin costo</a>
+      <a class="btn btn--linea" href={waHref('Hola, quiero recuperar horas de trabajo en mi negocio.')} target={waHref('x').startsWith('http') ? '_blank' : undefined} rel="noopener">Escríbenos por WhatsApp</a>
+    </div>
+    <p class="hero__nota">La primera reunión no tiene costo. Si seguimos con la auditoría ({precioAuditoria}), su valor se descuenta de tu proyecto.</p>
+  </div>
+
   <svg class="hero__ola" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60V36C180 6 360 6 540 30S900 58 1080 32S1320 6 1440 28V60Z" fill="#fff" /></svg>
 </section>
 
 <style>
   .hero {
-    position: relative; height: 100svh; min-height: 620px; background: var(--azul-prof); overflow: hidden;
+    position: relative; min-height: 100svh; background: var(--azul-prof); overflow: hidden; padding: 56px 20px clamp(70px, 8vw, 96px);
     display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; isolation: isolate;
   }
   .hero__lienzo { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
-  /* Despeja el centro para que el logo siempre se lea */
+  /* Despeja el centro para que el logo y el texto siempre se lean */
   .hero__velo {
     position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    background: radial-gradient(ellipse 46% 52% at 50% 50%, rgba(10, 19, 38, .93) 0%, rgba(10, 19, 38, .55) 62%, rgba(10, 19, 38, 0) 100%);
+    background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(10, 19, 38, .94) 0%, rgba(10, 19, 38, .6) 64%, rgba(10, 19, 38, 0) 100%);
   }
-  .hero__cta { position: absolute; top: 28px; right: clamp(16px, 3.4vw, 48px); padding: 11px 22px; font-size: 14px; background: rgba(15, 27, 51, .55); backdrop-filter: blur(4px); }
-  .hero__bloque { display: flex; flex-direction: column; align-items: center; height: var(--B); margin-top: -2svh; }
+  .hero__bloque { display: flex; flex-direction: column; align-items: center; height: var(--B); }
   .hero__zona { display: flex; align-items: center; justify-content: center; flex: none; width: 100%; }
   .hero__zona--nombre { height: calc(var(--B) * .236); }
   .hero__zona--eslogan { height: calc(var(--B) * .146); }
   .hero__nombre { height: calc(var(--B) * .236 * .62); max-width: 86vw; width: auto; margin-top: -2%; }
   .hero__eslogan { height: calc(var(--B) * .146 * .34); max-width: 80vw; width: auto; }
-  .hero__linea {
-    position: absolute; left: 0; right: 0; bottom: clamp(70px, 11svh, 108px); padding-inline: 40px;
-    color: rgba(248, 245, 236, .82); font-size: clamp(14px, 1.3vw, 17px); letter-spacing: .06em; line-height: 1.45;
-  }
-  .hero__bajar { position: absolute; left: 50%; bottom: clamp(40px, 6.5svh, 64px); translate: -50% 0; padding: 8px; animation: bajar 2.4s ease-in-out infinite; }
+
+  .hero__texto { margin-top: clamp(10px, 2.2svh, 26px); max-width: 800px; }
+  .hero__texto h1 { font-family: var(--sans); font-weight: 500; font-size: clamp(23px, 2.5vw, 35px); line-height: 1.22; color: var(--marfil); letter-spacing: .005em; text-wrap: balance; }
+  .hero__sub { margin: 14px auto 0; max-width: 680px; color: rgba(248, 245, 236, .84); font-size: clamp(14.5px, 1.25vw, 17px); line-height: 1.55; text-wrap: pretty; }
+  .hero__botones { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+  .hero__botones .btn--linea { background: rgba(15, 27, 51, .55); backdrop-filter: blur(4px); }
+  .hero__nota { margin-top: 14px; font-size: 13px; color: rgba(248, 245, 236, .62); }
   .hero__ola { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: clamp(34px, 4.4vw, 60px); }
-  @keyframes bajar { 0%, 100% { transform: translateY(0); opacity: .75; } 50% { transform: translateY(7px); opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .hero__bajar { animation: none; } }
   @media (max-width: 700px) {
-    .hero__velo { background: radial-gradient(ellipse 80% 54% at 50% 48%, rgba(10, 19, 38, .93) 0%, rgba(10, 19, 38, .55) 62%, rgba(10, 19, 38, 0) 100%); }
+    .hero { padding-top: 40px; }
+    .hero__velo { background: radial-gradient(ellipse 90% 62% at 50% 50%, rgba(10, 19, 38, .94) 0%, rgba(10, 19, 38, .62) 66%, rgba(10, 19, 38, 0) 100%); }
+    .hero__botones { flex-direction: column; align-items: stretch; max-width: 340px; margin-inline: auto; }
+    .hero__nota { font-size: 12.5px; }
   }
 </style>
 

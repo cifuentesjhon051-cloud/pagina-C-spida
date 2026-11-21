@@ -53,7 +53,8 @@ section[id] { scroll-margin-top: var(--cabecera); }
 .salto:focus { top: 12px; }
 
 /* ---- Portada: piezas insertadas con set:html (no reciben estilos con alcance) ---- */
-.hero { --B: min(61.8svh, 118vw); }
+/* Bloque del logo: emblema 61.8 %, y el resto repartido áureamente entre nombre y eslogan. Deja sitio al título y a los botones. */
+.hero { --B: min(54svh, 100vw, 600px); }
 .hero__emblema { height: calc(var(--B) * .618); width: auto; flex: none; overflow: visible; filter: drop-shadow(0 18px 38px rgba(0, 0, 0, .5)); }
 .hero__emblema [id^='engranaje-'] { transform-box: fill-box; transform-origin: center; }
 

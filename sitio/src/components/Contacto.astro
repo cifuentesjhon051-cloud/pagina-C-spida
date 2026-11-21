@@ -1,16 +1,17 @@
 ---
 import Icono from './Icono.astro';
 import { config, waHref, agendaHref } from '../config';
+import { precioAuditoria } from '../content';
 ---
 <section class="contacto" id="contacto">
   <div class="contacto__grid">
     <div data-revelar>
       <div class="sobre" style="color: var(--oro)">Contacto</div>
-      <h2 class="oro">Hablemos de tu empresa</h2>
-      <p class="contacto__texto">Cuéntanos tu caso por WhatsApp o agenda tu diagnóstico. Si trabajamos juntos, el diagnóstico te sale gratis: su valor se descuenta de tu proyecto.</p>
+      <h2 class="oro">Si tu equipo repite una tarea más de tres veces por semana, se puede automatizar.</h2>
+      <p class="contacto__texto">Cuéntanos cómo trabajas hoy. En una conversación breve por WhatsApp sabrás si podemos ayudarte, y la primera reunión no tiene costo. Si avanzamos, auditamos tus procesos para mostrarte dónde recuperar tiempo y dinero: la auditoría cuesta {precioAuditoria} y se descuenta de tu proyecto.</p>
       <div class="contacto__botones">
         <a class="btn btn--wa" href={waHref('Hola, quiero contarles mi caso.')} target={config.whatsapp ? '_blank' : undefined} rel="noopener"><Icono nombre="chat" tamano={20} color="#fff" /> Escríbenos por WhatsApp</a>
-        <a class="btn btn--oro" href={agendaHref} target={config.agenda ? '_blank' : undefined} rel="noopener"><Icono nombre="calendario" tamano={20} color="#0F1B33" /> Agenda tu diagnóstico</a>
+        <a class="btn btn--oro" href={agendaHref} target={config.agenda ? '_blank' : undefined} rel="noopener"><Icono nombre="calendario" tamano={20} color="#0F1B33" /> Agenda una reunión sin costo</a>
       </div>
       <p class="contacto__lugar">Medellín, Colombia · Atendemos a empresas de todo el país</p>
       {config.correo && <p class="contacto__correo">También por correo: <a href={`mailto:${config.correo}`}>{config.correo}</a></p>}
@@ -38,7 +39,7 @@ import { config, waHref, agendaHref } from '../config';
 <style>
   .contacto { background: var(--azul-prof); color: var(--marfil); padding: clamp(72px, 8vw, 124px) var(--pad); }
   .contacto__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 80px); align-items: center; }
-  h2 { margin-top: 12px; }
+  h2 { margin-top: 12px; font-size: clamp(26px, 2.7vw, 38px); text-wrap: balance; }
   .contacto__texto { margin-top: 20px; opacity: .92; max-width: 520px; }
   .contacto__botones { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
   .contacto__lugar { margin-top: 26px; font-size: 14px; opacity: .6; }

@@ -1,12 +1,13 @@
 ---
 import Icono from './Icono.astro';
-import { tarjetas } from '../content';
+import { tarjetas, problema } from '../content';
 ---
 <section class="servicios" id="servicios">
   <div class="servicios__pin">
     <header class="servicios__encabezado">
-      <div class="sobre" style="color: var(--oro-viejo)">Qué hacemos</div>
-      <h2>Así te ayudamos</h2>
+      <div class="sobre" style="color: var(--oro-viejo)">{problema.sobre}</div>
+      <h2>{problema.titulo}</h2>
+      <p class="servicios__giro">{problema.giro}</p>
     </header>
     <div class="servicios__lista">
       {tarjetas.map((t) => (
@@ -26,7 +27,8 @@ import { tarjetas } from '../content';
   .servicios { background: #fff; color: var(--tinta); padding: clamp(72px, 9vw, 128px) var(--pad) clamp(64px, 8vw, 110px); }
   .servicios__pin { display: flex; flex-direction: column; justify-content: center; }
   .servicios__encabezado { text-align: center; position: relative; z-index: 2; }
-  .servicios__encabezado h2 { color: var(--azul); margin-top: 12px; }
+  .servicios__encabezado h2 { color: var(--azul); margin: 12px auto 0; max-width: 900px; text-wrap: balance; }
+  .servicios__giro { margin: 16px auto 0; max-width: 640px; color: var(--tinta); opacity: .75; font-size: clamp(15px, 1.3vw, 17.5px); }
   .servicios__lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 48px; }
   .tarjeta { --r: 1; --lift: 0; position: relative; will-change: transform; }
   .tarjeta__in {

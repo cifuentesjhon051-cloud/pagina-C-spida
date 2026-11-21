@@ -5,7 +5,7 @@ import Cookies from '../components/Cookies.astro';
 interface Props { titulo?: string; descripcion?: string; noindex?: boolean; }
 const {
   titulo = 'Cúspida · Sistemas y automatización para tu empresa en Medellín',
-  descripcion = 'Consultoría en Medellín, Colombia: diagnosticamos tu empresa y construimos sistemas a la medida, integración de flujos de trabajo y herramientas con inteligencia artificial para automatizar tu negocio.',
+  descripcion = 'Recupera las horas que tu negocio pierde en trabajo manual. En Medellín, Colombia, auditamos tus procesos y construimos sistemas a la medida, conexión de herramientas e inteligencia artificial que trabajan por ti.',
   noindex = false,
 } = Astro.props;
 const url = config.sitio ? config.sitio + Astro.url.pathname : undefined;

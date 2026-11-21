@@ -1,10 +1,20 @@
-import { waHref, agendaHref } from './config';
+import { waHref } from './config';
+
+// Precio de la auditoría (se descuenta completo del proyecto si el cliente contrata). Cámbialo solo aquí.
+export const precioAuditoria = '$100.000';
+
+// ---- El problema ----
+export const problema = {
+  sobre: 'El problema',
+  titulo: '¿Tu negocio depende de que alguien se acuerde de todo?',
+  giro: 'Hay otra forma de operar: que lo repetitivo se haga solo y tu equipo se dedique a vender y a crecer.',
+};
 
 export const tarjetas = [
-  { icono: 'lupa', titulo: 'Primero, entender tu empresa', cuerpo: 'Antes de proponerte algo, escuchamos. Analizamos cómo trabaja hoy tu empresa y te entregamos un diagnóstico claro: qué funciona, qué te está frenando y por dónde conviene empezar.' },
-  { icono: 'diana', titulo: '¿Ya sabes qué está fallando?', cuerpo: 'Si ya detectaste un problema en tu proceso, lo resolvemos contigo. Buscamos la solución más sencilla y eficiente, no la más cara ni la más complicada.' },
-  { icono: 'engranaje', titulo: 'Herramientas hechas a tu medida', cuerpo: 'Diseñamos la tecnología que tu negocio necesita: punto de venta (POS), CRM, ERP, páginas web y más. Se adaptan a tu forma de trabajar, y no al revés.' },
-  { icono: 'chispa', titulo: 'Inteligencia artificial que trabaja contigo', cuerpo: 'Conectamos tus herramientas con inteligencia artificial para que lo repetitivo se haga solo: resúmenes de reuniones, reportes, seguimiento a clientes. La IA hace el trabajo pesado; las decisiones siguen siendo tuyas.' },
+  { icono: 'doc', titulo: '¿Tus datos viven en mil archivos?', cuerpo: 'Reunimos tu información en un solo sistema, siempre al día, para que sepas cómo va tu negocio sin tener que preguntarle a nadie.' },
+  { icono: 'engranaje', titulo: '¿Tu equipo copia y pega todo el día?', cuerpo: 'Conectamos tus herramientas para que la información pase sola de una a otra. Menos errores y horas devueltas a tu equipo.' },
+  { icono: 'chat', titulo: '¿Tus clientes esperan horas una respuesta?', cuerpo: 'Asistentes con inteligencia artificial atienden por WhatsApp a cualquier hora y pasan el caso a una persona solo cuando hace falta.' },
+  { icono: 'chispa', titulo: '¿Para crecer tendrías que contratar más gente?', cuerpo: 'Automatizamos lo repetitivo para que tu operación crezca sin que el desorden ni los costos crezcan con ella.' },
 ];
 
 export const hosting = {
@@ -15,18 +25,62 @@ export const hosting = {
   ],
 };
 
+// ---- Servicios: tres pilares explicados como beneficios ----
+export const pilares = {
+  sobre: 'Cómo te ayudamos',
+  titulo: 'Tres formas de recuperar tu tiempo',
+  texto: 'Elige por dónde empezar. Todo se cotiza con precio cerrado, por escrito, después de la auditoría.',
+};
+
 export const caminos = [
-  { estado: 'Disponible', icono: 'engranaje', titulo: 'Sistemas a la medida', texto: 'Cuando tu empresa necesita algo que no existe, lo construimos contigo.', precio: 'Presupuesto cerrado después del diagnóstico', boton: 'Agenda tu diagnóstico', href: agendaHref, estilo: 'oro' },
-  { estado: 'Disponible', icono: 'diana', titulo: 'Integración de flujos de trabajo', texto: 'Conectamos las herramientas que ya usas para que la información pase sola de una a otra.', precio: 'Desde $100.000', boton: 'Cuéntanos tu proceso', href: waHref('Hola, quiero contarles mi proceso para ver cómo automatizarlo.'), estilo: 'linea' },
-  { estado: 'Próximamente', icono: 'doc', titulo: 'Sistemas listos', texto: 'Estamos preparando sistemas ya construidos para que empieces rápido, sin esperar un desarrollo.', precio: 'Precio fijo, muy pronto', boton: 'Avísame cuando estén', href: '#contacto', interes: 'Quiero que me avisen cuando estén listos los sistemas.', estilo: 'linea' },
+  {
+    icono: 'engranaje', titulo: 'Un sistema hecho a tu medida',
+    texto: 'Diseñamos el punto de venta, el inventario o el control que tu negocio realmente necesita, no uno genérico al que tengas que adaptarte.',
+    resultado: 'Menos errores, información siempre al día y decisiones con datos reales, no con corazonadas.',
+    boton: 'Cuéntanos qué necesitas', href: waHref('Hola, necesito un sistema hecho a la medida para mi negocio.'), estilo: 'oro',
+  },
+  {
+    icono: 'diana', titulo: 'Tus herramientas hablando entre sí',
+    texto: 'Conectamos tu WhatsApp, tu CRM, tu facturación y tus hojas de cálculo para que la información pase sola de una a otra, sin que nadie la copie a mano.',
+    resultado: 'Horas recuperadas cada semana y ningún dato perdido por el camino.',
+    boton: 'Cuéntanos tu proceso', href: waHref('Hola, quiero conectar mis herramientas y automatizar un proceso.'), estilo: 'linea',
+  },
+  {
+    icono: 'chispa', titulo: 'Inteligencia artificial que trabaja por ti',
+    texto: 'Asistentes que responden a tus clientes a cualquier hora, clasifican solicitudes y preparan reportes. Cuando haga falta, con modelos que corren en tu propia infraestructura para que tu información no salga de tu control.',
+    resultado: 'Respuesta inmediata a tus clientes y un equipo dedicado a lo que de verdad aporta.',
+    boton: 'Cuéntanos cómo atiendes hoy', href: waHref('Hola, quiero un asistente con inteligencia artificial para atender a mis clientes.'), estilo: 'linea',
+  },
 ];
 
+export const listos = {
+  texto: 'Próximamente: sistemas ya construidos para que empieces rápido, sin esperar un desarrollo.',
+  boton: 'Avísame cuando estén',
+  interes: 'Quiero que me avisen cuando estén listos los sistemas.',
+};
+
+// ---- Cómo trabajamos ----
 export const pasos = [
-  { titulo: 'Primer contacto', texto: 'Nos cuentas tu caso por WhatsApp, en unos minutos y sin costo.' },
-  { titulo: 'Diagnóstico', texto: 'Sesión de trabajo. Su valor se descuenta completo de tu proyecto.' },
-  { titulo: 'Construcción', texto: 'Entregas parciales que puedes probar.' },
+  { titulo: 'Reunión inicial, sin costo', texto: 'Nos cuentas cómo trabajas y qué te frena. En unos minutos sabrás si podemos ayudarte.' },
+  { titulo: 'Auditoría', texto: `Revisamos tu operación a fondo: qué funciona, qué falla y qué se puede mejorar. Si ya sabes qué falla, lo investigamos hasta la raíz. Cuesta ${precioAuditoria} y se descuenta completa si contratas.` },
+  { titulo: 'Construcción', texto: 'Entregas parciales que puedes probar mientras avanzamos.' },
   { titulo: 'Acompañamiento', texto: 'Capacitación, soporte, hosting y respaldos.' },
 ];
+
+// ---- Casos de uso ----
+// Todavía no hay cifras medidas. Son ejemplos de lo que se puede automatizar, no resultados de clientes.
+// Cuando existan casos reales con números, reemplaza estas tarjetas y cambia la etiqueta.
+export const casos = {
+  sobre: 'Casos de uso',
+  titulo: 'Lo que cambia cuando tu operación se automatiza',
+  etiqueta: 'Ejemplo ilustrativo',
+  nota: 'Estamos documentando nuestros primeros casos con cifras reales. Los publicaremos aquí.',
+  lista: [
+    { sector: 'Comercio y punto de venta', antes: 'Cuadras caja e inventario a mano al cierre del día, con diferencias que nadie sabe explicar.', despues: 'El cierre se hace solo: caja, inventario y ventas del día en un reporte listo para revisar.' },
+    { sector: 'Atención por WhatsApp', antes: 'Clientes escribiendo a toda hora y mensajes que se quedan sin respuesta hasta el día siguiente.', despues: 'Un asistente responde al instante, toma el pedido o la reserva y avisa a una persona solo cuando hace falta.' },
+    { sector: 'Facturación y administración', antes: 'Facturas digitadas una por una, con errores que se descubren tarde.', despues: 'La información pasa sola de la venta a la factura y al reporte, sin copiar nada.' },
+  ],
+};
 
 export const compromisos = [
   { icono: 'llave', titulo: 'Lo que construimos es tuyo', texto: 'El sistema y tus datos te pertenecen.' },
@@ -54,8 +108,9 @@ export const trabajos = [
 ];
 
 export const faqs = [
-  { q: '¿Cuánto cuesta y de qué depende el precio?', a: 'Depende del alcance. La integración de flujos de trabajo parte desde $100.000. Los sistemas a la medida se cotizan con precio cerrado, por escrito, después del diagnóstico. El diagnóstico tiene un valor que se descuenta completo del proyecto si decides contratar.' },
-  { q: '¿Cuánto tarda un proyecto?', a: 'Depende de su tamaño. Después del diagnóstico te entregamos un cronograma por escrito, con entregas parciales para que pruebes lo construido mientras avanzamos.' },
+  { q: '¿Cuánto cuesta y de qué depende el precio?', a: `La primera reunión no tiene costo. La auditoría cuesta ${precioAuditoria} y se descuenta completa del proyecto si decides contratar. Los proyectos se cotizan con precio cerrado, por escrito, después de la auditoría: así sabes cuánto pagarás antes de empezar.` },
+  { q: '¿Qué incluye la auditoría?', a: 'Es el trabajo completo de entender tu operación: revisamos contigo cómo trabajas hoy, qué funciona, qué falla y qué se puede mejorar. Si ya sabes qué hay que arreglar, lo investigamos a fondo hasta dar con la causa. Al final recibes un informe con prioridades y una propuesta con presupuesto cerrado.' },
+  { q: '¿Cuánto tarda un proyecto?', a: 'Depende de su tamaño. Después de la auditoría te entregamos un cronograma por escrito, con entregas parciales para que pruebes lo construido mientras avanzamos.' },
   { q: '¿Necesito saber de tecnología?', a: 'No. Nos explicas cómo trabaja tu negocio con tus palabras y nosotros nos encargamos de lo técnico. También te capacitamos para que tú y tu equipo usen el sistema con confianza.' },
   { q: 'Ya uso Excel u otro sistema, ¿hay que empezar de cero?', a: 'No. Partimos de lo que ya tienes: podemos importar tus datos y conectar las herramientas que uses, para que no repitas trabajo.' },
   { q: '¿De quién es el sistema y de quién son los datos?', a: 'Tuyos. Lo que construimos para ti y la información de tu negocio te pertenecen.' },
@@ -63,9 +118,10 @@ export const faqs = [
 ];
 
 export const enlaces = [
-  { href: '#servicios', texto: 'Servicios' },
+  { href: '#caminos', texto: 'Servicios' },
   { href: '#hosting', texto: 'Hosting' },
   { href: '#proceso', texto: 'Cómo trabajamos' },
+  { href: '#casos', texto: 'Casos' },
   { href: '#preguntas', texto: 'Preguntas' },
   { href: '#contacto', texto: 'Contacto' },
 ];
